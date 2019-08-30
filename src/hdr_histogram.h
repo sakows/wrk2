@@ -145,6 +145,13 @@ int64_t hdr_min(struct hdr_histogram* h);
 int64_t hdr_max(struct hdr_histogram* h);
 int64_t hdr_value_at_percentile(struct hdr_histogram* h, double percentile);
 
+struct greaterSmaller { 
+    int64_t percent;
+    int64_t total; 
+}; 
+typedef struct greaterSmaller Struct;   
+Struct hdrs_value_at_percentile(struct hdr_histogram* h, double percentile);
+
 double hdr_mean(struct hdr_histogram* h);
 double hdr_stddev(struct hdr_histogram* h);
 

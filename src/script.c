@@ -342,9 +342,19 @@ static stats *checkstats(lua_State *L) {
 static int script_stats_percentile(lua_State *L) {
     stats *s = checkstats(L);
     lua_Number p = luaL_checknumber(L, 2);
-    lua_pushnumber(L, stats_percentile(s, p));
+    Struct result;
+    result=stats_percentile(s, p);
+    lua_pushnumber(L,result.percent);
+    //lua_pushnumber(L, result.total);
     return 1;
 }
+
+// static int script_stats_totalcount(lua_State *L) {
+//     stats *s = checkstats(L);
+//     lua_Number p = luaL_checknumber(L, 2);
+    
+//     return 1;
+// }
 
 static int script_stats_get(lua_State *L) {
     stats *s = checkstats(L);
@@ -365,7 +375,12 @@ static int script_stats_get(lua_State *L) {
         if (!strcmp("stdev", method)) lua_pushnumber(L, stats_stdev(s, stats_mean(s)));
         if (!strcmp("percentile", method)) {
             lua_pushcfunction(L, script_stats_percentile);
-        }
+        };
+        // if (!strcmp("totalcount", method)) {
+        //     lua_pushcfunction(L, script_stats_totalcount);
+        // }
+
+        
     }
     return 1;
 }

@@ -120,14 +120,17 @@ long double stats_within_stdev(stats *stats, long double mean, long double stdev
     return (sum / (long double) stats->limit) * 100;
 }
 
-uint64_t stats_percentile(stats *stats, long double p) {
+Struct stats_percentile(stats *stats, long double p) {
+    Struct value;
     if (stats->histogram != NULL) {
         double percentile = p;
-        int64_t value = hdr_value_at_percentile(stats->histogram, percentile);
-        return (value < 0) ? 0 : value;
+        
+        value = hdrs_value_at_percentile(stats->histogram, percentile);
+        return value;
     }
     uint64_t rank = round((p / 100.0) * stats->limit + 0.5);
-    return stats->data[rank - 1];
+    value.percent=stats->data[rank - 1];
+    return value;
 }
 
 void stats_sample(stats *dst, tinymt64_t *state, uint64_t count, stats *src) {

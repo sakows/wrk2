@@ -38,7 +38,7 @@ long double stats_summarize(stats *);
 long double stats_mean(stats *);
 long double stats_stdev(stats *stats, long double);
 long double stats_within_stdev(stats *, long double, long double, uint64_t);
-uint64_t stats_percentile(stats *, long double);
+Struct stats_percentile(stats *, long double);
 
 void stats_sample(stats *, tinymt64_t *, uint64_t, stats *);
 uint64_t rand64(tinymt64_t *, uint64_t);

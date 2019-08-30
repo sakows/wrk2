@@ -357,6 +357,35 @@ int64_t hdr_value_at_percentile(struct hdr_histogram* h, double percentile)
     return 0;
 }
 
+Struct hdrs_value_at_percentile(struct hdr_histogram* h, double percentile)
+{
+    struct hdr_iter iter;
+    Struct s; 
+    hdr_iter_init(&iter, h);
+
+    double requested_percentile = percentile < 100.0 ? percentile : 100.0;
+    int64_t count_at_percentile =
+        (int64_t) (((requested_percentile / 100) * h->total_count) + 0.5);
+    count_at_percentile = count_at_percentile > 1 ? count_at_percentile : 1;
+    int64_t total = 0;
+
+
+    while (hdr_iter_next(&iter))
+    {
+        total += iter.count_at_index;
+
+        if (total >= count_at_percentile)
+        {
+            int64_t value_from_index = iter.value_from_index;
+            s.percent=highest_equivalent_value(h, value_from_index);
+            s.total=count_at_percentile;
+            printf("TotalCount: %lld,\n",s.total);
+            return s;
+        }
+    }
+
+    return s;
+}
 double hdr_mean(struct hdr_histogram* h)
 {
     struct hdr_iter iter;
@@ -613,7 +642,7 @@ int hdr_percentiles_print(
     while (hdr_percentile_iter_next(&percentiles))
     {
         double  value               = percentiles.iter.highest_equivalent_value / value_scale;
-        double  percentile          = percentiles.percentile / 100.0;
+        double  percentile          = percentiles.percentile;
         int64_t total_count         = percentiles.iter.count_to_index;
         double  inverted_percentile = (1.0 / (1.0 - percentile));
 
