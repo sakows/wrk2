@@ -4,11 +4,16 @@
 done = function(summary, latency, requests)
     io.write("\nJSON Output:\n")
     io.write("{\n")
-    -- io.write(string.format("\t\"requests\": %d,\n", summary.requests))
-    -- io.write(string.format("\t\"duration_in_microseconds\": %0.2f,\n", summary.duration))
-    -- io.write(string.format("\t\"bytes\": %d,\n", summary.bytes))
-    -- io.write(string.format("\t\"requests_per_sec\": %0.2f,\n", (summary.requests/summary.duration)*1e6))
-    -- io.write(string.format("\t\"bytes_transfer_per_sec\": %0.2f,\n", (summary.bytes/summary.duration)*1e6))
+    io.write(string.format("\t\"requests\": %d,\n", summary.requests))
+    io.write(string.format("\t\"duration_in_microseconds\": %0.2f,\n", summary.duration))
+    io.write(string.format("\t\"bytes\": %d,\n", summary.bytes))
+    io.write(string.format("\t\"requests_per_sec\": %0.2f,\n", (summary.requests/summary.duration)*1e6))
+    io.write(string.format("\t\"bytes_transfer_per_sec\": %0.2f,\n", (summary.bytes/summary.duration)*1e6))
+    io.write(string.format("\t Min: %0.2f,\n", latency.min))
+    io.write(string.format("\t Avg: %0.2f,\n", latency.mean))
+    io.write(string.format("\t Max: %0.2f,\n", latency.max))
+    io.write(string.format("\t StdDev: %0.2f,\n", latency.stdev))
+
     
     -- print(string.format("Total Requests: %d", summary.requests))
     -- print(string.format("HTTP errors: %d", summary.errors.status))
@@ -26,7 +31,7 @@ done = function(summary, latency, requests)
       -- k = latency:total_count(p)
      -- io.write(string.format("\t\t\t\"SAKOO\": %s,\n", latency:percentile(p)))
 
-       io.write(string.format("Percentile: %g,\nValue: %d\n", p, n,k))
+       io.write(string.format("Percent: %g,\nValue: %d\n", p, n,k))
        if p == 100 then 
            io.write("\t\t}\n")
        else 

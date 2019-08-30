@@ -380,7 +380,7 @@ jsonStats hdrs_value_at_percentile(struct hdr_histogram* h, double percentile)
             int64_t value_from_index = iter.value_from_index;
             s.percentile=highest_equivalent_value(h, value_from_index);
             s.totalcount=count_at_percentile;
-            printf("TotalCount: %lld,\n",s.totalcount);
+            printf("Count: %lld,\n",s.totalcount);
             return s;
         }
     }
