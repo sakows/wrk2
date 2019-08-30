@@ -357,10 +357,11 @@ int64_t hdr_value_at_percentile(struct hdr_histogram* h, double percentile)
     return 0;
 }
 
-Struct hdrs_value_at_percentile(struct hdr_histogram* h, double percentile)
+//Added by sakows
+jsonStats hdrs_value_at_percentile(struct hdr_histogram* h, double percentile)
 {
     struct hdr_iter iter;
-    Struct s; 
+    jsonStats s; 
     hdr_iter_init(&iter, h);
 
     double requested_percentile = percentile < 100.0 ? percentile : 100.0;
@@ -377,9 +378,9 @@ Struct hdrs_value_at_percentile(struct hdr_histogram* h, double percentile)
         if (total >= count_at_percentile)
         {
             int64_t value_from_index = iter.value_from_index;
-            s.percent=highest_equivalent_value(h, value_from_index);
-            s.total=count_at_percentile;
-            printf("TotalCount: %lld,\n",s.total);
+            s.percentile=highest_equivalent_value(h, value_from_index);
+            s.totalcount=count_at_percentile;
+            printf("TotalCount: %lld,\n",s.totalcount);
             return s;
         }
     }

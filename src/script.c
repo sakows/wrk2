@@ -342,19 +342,13 @@ static stats *checkstats(lua_State *L) {
 static int script_stats_percentile(lua_State *L) {
     stats *s = checkstats(L);
     lua_Number p = luaL_checknumber(L, 2);
-    Struct result;
+    jsonStats result;
     result=stats_percentile(s, p);
-    lua_pushnumber(L,result.percent);
+    lua_pushnumber(L,result.percentile);
     //lua_pushnumber(L, result.total);
     return 1;
 }
 
-// static int script_stats_totalcount(lua_State *L) {
-//     stats *s = checkstats(L);
-//     lua_Number p = luaL_checknumber(L, 2);
-    
-//     return 1;
-// }
 
 static int script_stats_get(lua_State *L) {
     stats *s = checkstats(L);

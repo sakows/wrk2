@@ -853,7 +853,8 @@ static void print_stats_latency(stats *stats) {
     printf("  Latency Distribution\n");
     for (size_t i = 0; i < sizeof(percentiles) / sizeof(long double); i++) {
         long double p = percentiles[i];
-        uint64_t n = stats_percentile(stats, p);
+        jsonStats result = stats_percentile(stats, p);
+        uint64_t n =result.percentile;
         printf("%7.3Lf%%", p);
         print_units(n, format_time_us, 10);
         printf("\n");

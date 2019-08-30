@@ -120,8 +120,9 @@ long double stats_within_stdev(stats *stats, long double mean, long double stdev
     return (sum / (long double) stats->limit) * 100;
 }
 
-Struct stats_percentile(stats *stats, long double p) {
-    Struct value;
+//Added by sakows
+jsonStats stats_percentile(stats *stats, long double p) {
+    jsonStats value;
     if (stats->histogram != NULL) {
         double percentile = p;
         
@@ -129,7 +130,7 @@ Struct stats_percentile(stats *stats, long double p) {
         return value;
     }
     uint64_t rank = round((p / 100.0) * stats->limit + 0.5);
-    value.percent=stats->data[rank - 1];
+    value.percentile=stats->data[rank - 1];
     return value;
 }
 
